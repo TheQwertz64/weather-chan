@@ -1,0 +1,71 @@
+// run dotenv
+//require('dotenv').config();
+
+const Discord = require('discord.js');
+const {prefix, token, secret_value} = require('./config.json');
+const client = new Discord.Client();
+
+client.once('ready', () => {
+	console.log('Ready!');
+	console.log(`Logged in as ${709105097967403068}!`);
+});
+
+client.on('message', message => {
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+	const args = message.content.slice(prefix.length).split(/ +/);
+	const command = args.shift().toLowerCase();
+	console.log(message.content);
+	if (message.content === prefix + 'ping') {
+		message.channel.send('pong');
+	}
+	else if (message.content === prefix +'weather') {
+		message.reply('I don\'t know the weather right now, sorry.');
+	}	
+	else if (command === 'is-cool') {
+		if (!args.length) {
+			return message.channel.send(`Baka, you didn't provide an argument, ${message.author}!`);
+		}
+		else if (args[0] === 'fortnite') {
+			return message.channel.send('fortnite is trash.');
+		}
+		message.channel.send(`${args[0]} is very cool :sunglasses:.`);
+	}
+	else if (command === 'compliment') {
+		if (!message.mentions.users.size) {
+			return message.reply('No user tagged.');
+		}
+		const taggedUser = message.mentions.users.first();
+		
+		message.channel.send(`${taggedUser.username} is a nice person.`);
+	}
+	else if (message.content === prefix + 'server'){
+		message.channel.send(`The name of this server is: ${message.guild.name}\nTotal members: ${message.guild.memberCount}`);
+	}
+	else if (command === 'profile') {
+		if (!message.mentions.users.size) {
+		return message.channel.send(`User: ${message.author.username}\nID: ${message.author.id}\nPFP: <${message.author.displayAvatarURL({ format: "png", dynamic: true})}>`);
+		}
+	const profileList = message.mentions.users.map(user => {
+	return `User: ${user.username}\nId: ${user.id}\nPFP: <${user.displayAvatarURL({ format: "png", dynamic: true})}>`;
+	});
+	message.channel.send(profileList);
+	}
+	else if (command === 'clear') {
+		const amount = parseInt(args[0]) + 1;
+		if (isNaN(amount)) {
+		return message.reply('invalid number');
+		}
+		else if (amount <= 1 || amount > 100){
+			return message.send('number must be between 1 and 99');
+		}
+		message.channel.bulkDelete(amount, true).catch(err => {
+			console.error(err);
+			message.channel.send('there was an error when deleting messages :worried:');
+		});
+	}
+		
+});
+
+client.login(token);
+

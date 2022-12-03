@@ -1,0 +1,5 @@
+config.json
+.env
+bot_old_stuff.js
+node_modules
+opus-main
