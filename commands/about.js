@@ -4,7 +4,7 @@ module.exports = {
     aliases: '[weather-chan]',
     execute(message){
         const {Discord, AttachmentBuilder} = require('discord.js');
-        const pfp = new AttachmentBuilder('../images/weather-chan.png');
+        const pfp = new AttachmentBuilder('../images/WeatherChan.png');
         const weatherInfo = new Discord.MessageEmbed()
         .setColor('#05bafa')
         .setTitle('About Weather Chan')

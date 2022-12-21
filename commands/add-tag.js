@@ -3,8 +3,8 @@ module.exports = {
     description: 'adds a tag',
     args: true,
     usage: '<name>, <description>',
-    wip: true,
-    execute(message, args){
+    async execute(message, args){
+        const {Tags} = require('../index.js');
         const argsArr = args.join(' ');
         const splitArgs = argsArr.split(' ');
         const tagName = splitArgs.shift();
@@ -12,7 +12,7 @@ module.exports = {
 
         try {
             // equivalent to: INSERT INTO tags (name, description, username) values (?, ?, ?);
-            const tag = Tags.create({
+            const tag = await Tags.create({
                 name: tagName,
                 description: tagDescription,
                 username: message.author.username,
